@@ -4,12 +4,12 @@
 
 [简体中文](README.zh-CN.md)
 
-Scope Gate is a small Codex skill that turns a delivery request into a closed five-field scope card before implementation starts. It fixes the goal, inputs and outputs, required work, exclusions, and acceptance conditions in `SCOPE.md`, then stops at the design handoff.
+Scope Gate is a single-purpose, platform-neutral Agent Skill that turns a delivery request into a closed five-field scope card before implementation starts. It fixes the goal, inputs and outputs, required work, exclusions, and acceptance conditions in `SCOPE.md`, then stops at the design handoff.
 
 ![Scope Gate demo](docs/demo.gif)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Skill: Codex](https://img.shields.io/badge/Skill-Codex-111827.svg)](https://developers.openai.com/codex/skills/)
+[![Agent Skill: portable](https://img.shields.io/badge/Agent_Skill-portable-111827.svg)](https://agentskills.io/)
 [![Scope fields: 5](https://img.shields.io/badge/Scope_fields-5-0f766e.svg)](skills/scope-gate/SKILL.md)
 
 ## Why Scope Gate
@@ -28,29 +28,24 @@ The value is not another document. It is a closed baseline that later work can b
 - A versioned `SCOPE.md` preserves the agreed baseline in the workspace.
 - A hard stop keeps ADRs, tickets, estimates, and implementation out of scope review.
 
-Scope Gate is deliberately narrow. It does not claim to replace requirements engineering, architecture review, or project management.
+Scope Gate is intentionally single-purpose and portable across Agent hosts. It does not replace requirements engineering, architecture review, or project management.
 
 ## Quick Start
 
-Prerequisites: a Codex installation that supports skills. See the [Codex skills documentation](https://developers.openai.com/codex/skills/).
+Scope Gate uses the portable Agent Skill layout. Run each command in the target project root; it copies `skills/scope-gate` into that host's project-level skill directory. Replace `--copy` with `--global --copy` to target the host's user-level directory; some hosts also require user-level discovery to be enabled. The commands require Node.js and npm.
 
-Copy the skill folder into your Codex skills directory:
+- **Codex**: run `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent codex --copy`, then enter `$scope-gate`. [Documentation](https://developers.openai.com/codex/skills/)
+- **Claude Code**: run `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent claude-code --copy`, then enter `/scope-gate`. [Documentation](https://code.claude.com/docs/en/skills)
+- **Cursor**: run `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent cursor --copy`, then type `/` in Agent chat and select `scope-gate`. [Documentation](https://cursor.com/docs/context/skills)
+- **Gemini CLI**: run `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent gemini-cli --copy`, then ask the Agent to use the `scope-gate` skill; confirm discovery with `/skills list`. [Documentation](https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/skills.md)
+- **Pi**: run `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent pi --copy`, then enter `/skill:scope-gate`; use `/reload` after editing the skill. [Documentation](https://pi.dev/docs/latest/skills)
+- **Oh My Pi**: run `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent pi --copy` in the project root; this installs through the Pi-compatible target into the shared `.agents/skills` layout that Oh My Pi loads, then enter `/skill:scope-gate`; enable `skills.enableSkillCommands` if the slash command is unavailable. [Documentation](https://github.com/can1357/oh-my-pi/blob/main/docs/skills.md)
+- **OpenCode**: run `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent opencode --copy`, then ask the Agent to use the `scope-gate` skill. [Documentation](https://opencode.ai/docs/skills/)
+- **WorkBuddy (manual packaging required)**: package this `SKILL.md` into WorkBuddy's `skill.yml` format and publish it to Skill Marketplace before installing it there. [Marketplace](https://www.workbuddy.ai/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Skills-Market) · [Skill format](https://www.workbuddy.ai/docs/workbuddy/From-Beginner-to-Expert-Guide/Practice-Cases/Create-Skills)
+- **Qoder**: run `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent qoder --copy`, then enter `/scope-gate`; use `/skills reload` if Qoder is already running. [Documentation](https://docs.qoder.com/cli/Skills)
+- **Trae**: run `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent trae --copy`, then ask the Agent to use the `scope-gate` skill. [Documentation](https://docs.trae.ai/ide/skills)
 
-```powershell
-$source = Resolve-Path ".\skills\scope-gate"
-$destination = Join-Path $env:USERPROFILE ".codex\skills\scope-gate"
-Copy-Item -LiteralPath $source -Destination $destination -Recurse
-```
-
-If `CODEX_HOME` points to a custom directory, place the folder at `$CODEX_HOME\skills\scope-gate` instead. Restart or reload Codex if the new skill is not discovered immediately.
-
-Invoke it explicitly:
-
-```text
-Use $scope-gate to scope this request before implementation.
-```
-
-The skill can also be selected when a request clearly needs delivery scope clarification.
+The `--agent pi` install writes the portable project-level `.agents/skills/scope-gate` folder, which Codex, Cursor, Gemini CLI, Pi, Oh My Pi, and OpenCode discover. Hosts that support implicit invocation may also select the skill when a request clearly needs delivery scope clarification.
 
 ## Example
 
@@ -102,7 +97,7 @@ Scope-changing questions use a fixed protocol: brief impact analysis, two to fou
 
 ## Compatibility and Validation
 
-Scope Gate follows the Codex skill layout:
+Scope Gate uses the portable Agent Skill layout:
 
 ```text
 skills/scope-gate/
@@ -110,6 +105,8 @@ skills/scope-gate/
 `-- agents/
     `-- openai.yaml
 ```
+
+`agents/openai.yaml` only provides optional UI metadata for OpenAI hosts; other hosts need only `SKILL.md`.
 
 Repository checks:
 

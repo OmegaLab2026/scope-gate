@@ -4,12 +4,12 @@
 
 [English](README.md)
 
-Scope Gate 是一个范围很窄的 Codex skill：在进入实现前，把交付请求固化为五项范围卡，并在工作区写入 `SCOPE.md`。五项分别是目标、输入输出、必须完成、明确不做和验收标准；范围闭合后立即停止，交给后续设计或执行环节。
+Scope Gate 是一个单一职责的通用 Agent Skill：在进入实现前，把交付请求固化为五项范围卡，并在工作区写入 `SCOPE.md`。五项分别是目标、输入输出、必须完成、明确不做和验收标准；范围闭合后立即停止，交给后续设计或执行环节。
 
 ![Scope Gate 演示](docs/demo.gif)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Skill: Codex](https://img.shields.io/badge/Skill-Codex-111827.svg)](https://developers.openai.com/codex/skills/)
+[![Agent Skill: portable](https://img.shields.io/badge/Agent_Skill-portable-111827.svg)](https://agentskills.io/)
 [![Scope fields: 5](https://img.shields.io/badge/Scope_fields-5-0f766e.svg)](skills/scope-gate/SKILL.md)
 
 ## 为什么使用 Scope Gate
@@ -28,29 +28,24 @@ Scope Gate 是一个范围很窄的 Codex skill：在进入实现前，把交付
 - 带版本的 `SCOPE.md`，在工作区保留已确认基线。
 - 强制停止边界，不把 ADR、拆票、估工和实现混入范围澄清。
 
-Scope Gate 的职责刻意保持狭窄。它不替代完整的需求工程、架构评审或项目管理。
+Scope Gate 保持单一职责和平台中立。它不替代完整的需求工程、架构评审或项目管理，也不依赖某一个 Agent 宿主。
 
 ## 快速开始
 
-前提：当前 Codex 版本支持 skills。参见 [Codex skills 文档](https://developers.openai.com/codex/skills/)。
+Scope Gate 使用可移植的 Agent Skill 结构。以下命令均在目标项目根目录执行，会把 `skills/scope-gate` 复制到对应宿主的项目级 Skill 目录；将 `--copy` 改为 `--global --copy` 可安装到宿主的用户级目录，部分宿主还需启用用户级发现。命令需要 Node.js 和 npm。
 
-将 skill 文件夹复制到 Codex 的 skills 目录：
+- **Codex**：运行 `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent codex --copy`，然后输入 `$scope-gate`。[官方文档](https://developers.openai.com/codex/skills/)
+- **Claude Code**：运行 `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent claude-code --copy`，然后输入 `/scope-gate`。[官方文档](https://code.claude.com/docs/en/skills)
+- **Cursor**：运行 `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent cursor --copy`，然后在 Agent 输入 `/` 并选择 `scope-gate`。[官方文档](https://cursor.com/docs/context/skills)
+- **Gemini CLI**：运行 `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent gemini-cli --copy`，然后请求 Agent 使用 `scope-gate` skill；用 `/skills list` 确认是否已发现。[官方文档](https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/skills.md)
+- **Pi**：运行 `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent pi --copy`，然后输入 `/skill:scope-gate`；编辑 Skill 后可用 `/reload` 重载。[官方文档](https://pi.dev/docs/latest/skills)
+- **Oh My Pi**：在项目根目录运行 `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent pi --copy`；该命令通过 `skills` CLI 的 Pi 兼容目标写入 Oh My Pi 默认加载的 `.agents/skills`，然后输入 `/skill:scope-gate`；若斜杠命令不可用，启用 `skills.enableSkillCommands`。[官方文档](https://github.com/can1357/oh-my-pi/blob/main/docs/skills.md)
+- **OpenCode**：运行 `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent opencode --copy`，然后请求 Agent 使用 `scope-gate` skill。[官方文档](https://opencode.ai/docs/skills/)
+- **WorkBuddy（需手动封装）**：先将本项目的 `SKILL.md` 封装为 WorkBuddy 的 `skill.yml` 格式并发布到 Skill Marketplace，再从 Marketplace 安装。[Marketplace 文档](https://www.workbuddy.ai/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Skills-Market) · [Skill 格式](https://www.workbuddy.ai/docs/workbuddy/From-Beginner-to-Expert-Guide/Practice-Cases/Create-Skills)
+- **Qoder**：运行 `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent qoder --copy`，然后输入 `/scope-gate`；若 Qoder 已在运行，用 `/skills reload` 刷新。[官方文档](https://docs.qoder.com/cli/Skills)
+- **Trae**：运行 `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent trae --copy`，然后请求 Agent 使用 `scope-gate` skill。[官方文档](https://docs.trae.ai/ide/skills)
 
-```powershell
-$source = Resolve-Path ".\skills\scope-gate"
-$destination = Join-Path $env:USERPROFILE ".codex\skills\scope-gate"
-Copy-Item -LiteralPath $source -Destination $destination -Recurse
-```
-
-如果设置了自定义 `CODEX_HOME`，目标路径应为 `$CODEX_HOME\skills\scope-gate`。如果 Codex 没有立即发现新 skill，请按要求重启或重新加载。
-
-显式调用：
-
-```text
-Use $scope-gate to scope this request before implementation.
-```
-
-当请求明确需要交付范围澄清时，skill 也可能被模型自动选用。
+`--agent pi` 安装会写入可移植的项目级 `.agents/skills/scope-gate` 文件夹；Codex、Cursor、Gemini CLI、Pi、Oh My Pi 和 OpenCode 均可发现该目录。当请求明确需要交付范围澄清时，支持隐式调用的宿主也可能自动选择该 Skill。
 
 ## 示例
 
@@ -101,7 +96,7 @@ Scope Gate 在 ADR、技术设计、拆票、估工、排期和实现之前停�
 
 ## 兼容性与验证
 
-Scope Gate 使用 Codex skill 目录结构：
+Scope Gate 使用可移植的 Agent Skill 目录结构：
 
 ```text
 skills/scope-gate/
@@ -109,6 +104,8 @@ skills/scope-gate/
 `-- agents/
     `-- openai.yaml
 ```
+
+`agents/openai.yaml` 只提供 OpenAI 宿主的可选 UI 元数据；其他宿主至少只需要 `SKILL.md`。
 
 仓库检查：
 
