@@ -36,6 +36,7 @@ Scope Gate uses the portable Agent Skill layout. Run each command in the target 
 
 - **Codex**: run `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent codex --copy`, then enter `$scope-gate`. [Documentation](https://developers.openai.com/codex/skills/)
 - **Claude Code**: run `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent claude-code --copy`, then enter `/scope-gate`. [Documentation](https://code.claude.com/docs/en/skills)
+- **DeepSeek Harness (DSH)**: run `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent pi --copy` in the project root; the Pi-compatible target writes the shared `.agents/skills` root that DSH scans, then ask the Agent to use `scope-gate` through DSH's `skill` tool. [Documentation](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/skills.md)
 - **Cursor**: run `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent cursor --copy`, then type `/` in Agent chat and select `scope-gate`. [Documentation](https://cursor.com/docs/context/skills)
 - **Gemini CLI**: run `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent gemini-cli --copy`, then ask the Agent to use the `scope-gate` skill; confirm discovery with `/skills list`. [Documentation](https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/skills.md)
 - **Pi**: run `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent pi --copy`, then enter `/skill:scope-gate`; use `/reload` after editing the skill. [Documentation](https://pi.dev/docs/latest/skills)
@@ -45,7 +46,7 @@ Scope Gate uses the portable Agent Skill layout. Run each command in the target 
 - **Qoder**: run `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent qoder --copy`, then enter `/scope-gate`; use `/skills reload` if Qoder is already running. [Documentation](https://docs.qoder.com/cli/Skills)
 - **Trae**: run `npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent trae --copy`, then ask the Agent to use the `scope-gate` skill. [Documentation](https://docs.trae.ai/ide/skills)
 
-The `--agent pi` install writes the portable project-level `.agents/skills/scope-gate` folder, which Codex, Cursor, Gemini CLI, Pi, Oh My Pi, and OpenCode discover. Hosts that support implicit invocation may also select the skill when a request clearly needs delivery scope clarification.
+The `--agent pi` install writes the portable project-level `.agents/skills/scope-gate` folder, which Codex, Cursor, Gemini CLI, Pi, Oh My Pi, OpenCode, and DeepSeek Harness (DSH) discover. Hosts that support implicit invocation may also select the skill when a request clearly needs delivery scope clarification.
 
 ## Example
 
