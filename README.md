@@ -32,13 +32,13 @@ Scope Gate is intentionally single-purpose and portable across Agent hosts. It d
 
 ## Quick Start
 
-Scope Gate uses the portable Agent Skill layout. Run each command in the target project root; it copies `skills/scope-gate` into that host's project-level skill directory. Replace `--copy` with `--global --copy` to target the host's user-level directory; some hosts also require user-level discovery to be enabled. The commands require Node.js and npm.
+Scope Gate uses the portable Agent Skill layout. Run each command in the target project root; it copies `skills/scope-gate` into that host's project-level skill directory. The trailing `-y` installs without prompts and keeps that project-level default. Replace `--copy` with `--global --copy` to target the host's user-level directory; some hosts also require user-level discovery to be enabled. If the host is already running when you install, restart or reload the session afterwards: a running host may still cache the old skill catalog. The commands require Node.js and npm.
 
 <details>
 <summary><strong>Codex</strong></summary>
 
 ```bash
-npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent codex --copy
+npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent codex --copy -y
 ```
 
 Enter `$scope-gate`. [Documentation](https://developers.openai.com/codex/skills/)
@@ -49,7 +49,7 @@ Enter `$scope-gate`. [Documentation](https://developers.openai.com/codex/skills/
 <summary><strong>Claude Code</strong></summary>
 
 ```bash
-npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent claude-code --copy
+npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent claude-code --copy -y
 ```
 
 Enter `/scope-gate`. [Documentation](https://code.claude.com/docs/en/skills)
@@ -60,10 +60,10 @@ Enter `/scope-gate`. [Documentation](https://code.claude.com/docs/en/skills)
 <summary><strong>DeepSeek Harness (DSH)</strong></summary>
 
 ```bash
-npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent pi --copy
+npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent pi --copy -y
 ```
 
-The Pi-compatible target writes the shared `.agents/skills` root that DSH scans. Ask the Agent to use `scope-gate` through DSH's `skill` tool. [Documentation](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/skills.md)
+The Pi-compatible target writes the shared `.agents/skills` root that DSH scans. After installing, open a new session or refresh the DSH window before `scope-gate` appears in `/`: DSH prefetches and caches the skill catalog per session, so an external install does not invalidate it automatically. You can also ask the Agent to use `scope-gate` through DSH's `skill` tool. [Documentation](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/skills.md)
 
 </details>
 
@@ -71,7 +71,7 @@ The Pi-compatible target writes the shared `.agents/skills` root that DSH scans.
 <summary><strong>Cursor</strong></summary>
 
 ```bash
-npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent cursor --copy
+npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent cursor --copy -y
 ```
 
 Type `/` in Agent chat and select `scope-gate`. [Documentation](https://cursor.com/docs/context/skills)
@@ -82,7 +82,7 @@ Type `/` in Agent chat and select `scope-gate`. [Documentation](https://cursor.c
 <summary><strong>Gemini CLI</strong></summary>
 
 ```bash
-npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent gemini-cli --copy
+npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent gemini-cli --copy -y
 ```
 
 Ask the Agent to use the `scope-gate` skill, then confirm discovery with `/skills list`. [Documentation](https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/skills.md)
@@ -93,7 +93,7 @@ Ask the Agent to use the `scope-gate` skill, then confirm discovery with `/skill
 <summary><strong>Pi</strong></summary>
 
 ```bash
-npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent pi --copy
+npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent pi --copy -y
 ```
 
 Enter `/skill:scope-gate`. Use `/reload` after editing the skill. [Documentation](https://pi.dev/docs/latest/skills)
@@ -104,7 +104,7 @@ Enter `/skill:scope-gate`. Use `/reload` after editing the skill. [Documentation
 <summary><strong>Oh My Pi</strong></summary>
 
 ```bash
-npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent pi --copy
+npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent pi --copy -y
 ```
 
 The Pi-compatible target writes the shared `.agents/skills` layout that Oh My Pi loads. Enter `/skill:scope-gate`; enable `skills.enableSkillCommands` if the slash command is unavailable. [Documentation](https://github.com/can1357/oh-my-pi/blob/main/docs/skills.md)
@@ -115,7 +115,7 @@ The Pi-compatible target writes the shared `.agents/skills` layout that Oh My Pi
 <summary><strong>OpenCode</strong></summary>
 
 ```bash
-npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent opencode --copy
+npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent opencode --copy -y
 ```
 
 Ask the Agent to use the `scope-gate` skill. [Documentation](https://opencode.ai/docs/skills/)
@@ -133,7 +133,7 @@ Package this `SKILL.md` into WorkBuddy's `skill.yml` format and publish it to Sk
 <summary><strong>Qoder</strong></summary>
 
 ```bash
-npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent qoder --copy
+npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent qoder --copy -y
 ```
 
 Enter `/scope-gate`; use `/skills reload` if Qoder is already running. [Documentation](https://docs.qoder.com/cli/Skills)
@@ -144,7 +144,7 @@ Enter `/scope-gate`; use `/skills reload` if Qoder is already running. [Document
 <summary><strong>Trae</strong></summary>
 
 ```bash
-npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent trae --copy
+npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent trae --copy -y
 ```
 
 Ask the Agent to use the `scope-gate` skill. [Documentation](https://docs.trae.ai/ide/skills)

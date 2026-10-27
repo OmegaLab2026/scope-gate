@@ -32,13 +32,13 @@ Scope Gate 保持单一职责和平台中立。它不替代完整的需求工程
 
 ## 快速开始
 
-Scope Gate 使用可移植的 Agent Skill 结构。以下命令均在目标项目根目录执行，会把 `skills/scope-gate` 复制到对应宿主的项目级 Skill 目录；将 `--copy` 改为 `--global --copy` 可安装到宿主的用户级目录，部分宿主还需启用用户级发现。命令需要 Node.js 和 npm。
+Scope Gate 使用可移植的 Agent Skill 结构。以下命令均在目标项目根目录执行，会把 `skills/scope-gate` 复制到对应宿主的项目级 Skill 目录；命令末尾的 `-y` 表示无提示安装，并保持这一项目级默认。将 `--copy` 改为 `--global --copy` 可安装到宿主的用户级目录，部分宿主还需启用用户级发现。若安装时宿主已在运行，安装后需重启或 reload 会话，运行中的宿主可能仍缓存着旧技能列表。命令需要 Node.js 和 npm。
 
 <details>
 <summary><strong>Codex</strong></summary>
 
 ```bash
-npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent codex --copy
+npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent codex --copy -y
 ```
 
 输入 `$scope-gate`。[官方文档](https://developers.openai.com/codex/skills/)
@@ -49,7 +49,7 @@ npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent c
 <summary><strong>Claude Code</strong></summary>
 
 ```bash
-npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent claude-code --copy
+npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent claude-code --copy -y
 ```
 
 输入 `/scope-gate`。[官方文档](https://code.claude.com/docs/en/skills)
@@ -60,10 +60,10 @@ npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent c
 <summary><strong>DeepSeek Harness（DSH）</strong></summary>
 
 ```bash
-npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent pi --copy
+npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent pi --copy -y
 ```
 
-该命令通过 `skills` CLI 的 Pi 兼容目标写入 DSH 会扫描的共享 `.agents/skills`。随后请求 Agent 通过 DSH 的 `skill` 工具使用 `scope-gate`。[官方文档](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/skills.md)
+该命令通过 `skills` CLI 的 Pi 兼容目标写入 DSH 会扫描的共享 `.agents/skills`。装好后需新开会话或刷新 DSH 窗口，`/` 里才会列出 `scope-gate`：DSH 的技能目录按会话预取缓存，外部安装不会自动使其失效。也可以直接让 Agent 通过 DSH 的 `skill` 工具调用它。[官方文档](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/subsystems/skills.md)
 
 </details>
 
@@ -71,7 +71,7 @@ npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent p
 <summary><strong>Cursor</strong></summary>
 
 ```bash
-npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent cursor --copy
+npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent cursor --copy -y
 ```
 
 在 Agent 输入 `/` 并选择 `scope-gate`。[官方文档](https://cursor.com/docs/context/skills)
@@ -82,7 +82,7 @@ npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent c
 <summary><strong>Gemini CLI</strong></summary>
 
 ```bash
-npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent gemini-cli --copy
+npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent gemini-cli --copy -y
 ```
 
 请求 Agent 使用 `scope-gate` skill，然后用 `/skills list` 确认是否已发现。[官方文档](https://github.com/google-gemini/gemini-cli/blob/main/docs/cli/skills.md)
@@ -93,7 +93,7 @@ npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent g
 <summary><strong>Pi</strong></summary>
 
 ```bash
-npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent pi --copy
+npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent pi --copy -y
 ```
 
 输入 `/skill:scope-gate`；编辑 Skill 后可用 `/reload` 重载。[官方文档](https://pi.dev/docs/latest/skills)
@@ -104,7 +104,7 @@ npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent p
 <summary><strong>Oh My Pi</strong></summary>
 
 ```bash
-npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent pi --copy
+npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent pi --copy -y
 ```
 
 该命令通过 `skills` CLI 的 Pi 兼容目标写入 Oh My Pi 默认加载的 `.agents/skills`。输入 `/skill:scope-gate`；若斜杠命令不可用，启用 `skills.enableSkillCommands`。[官方文档](https://github.com/can1357/oh-my-pi/blob/main/docs/skills.md)
@@ -115,7 +115,7 @@ npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent p
 <summary><strong>OpenCode</strong></summary>
 
 ```bash
-npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent opencode --copy
+npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent opencode --copy -y
 ```
 
 请求 Agent 使用 `scope-gate` skill。[官方文档](https://opencode.ai/docs/skills/)
@@ -133,7 +133,7 @@ npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent o
 <summary><strong>Qoder</strong></summary>
 
 ```bash
-npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent qoder --copy
+npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent qoder --copy -y
 ```
 
 输入 `/scope-gate`；若 Qoder 已在运行，用 `/skills reload` 刷新。[官方文档](https://docs.qoder.com/cli/Skills)
@@ -144,7 +144,7 @@ npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent q
 <summary><strong>Trae</strong></summary>
 
 ```bash
-npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent trae --copy
+npx --yes skills@latest add OmegaLab2026/scope-gate --skill scope-gate --agent trae --copy -y
 ```
 
 请求 Agent 使用 `scope-gate` skill。[官方文档](https://docs.trae.ai/ide/skills)
