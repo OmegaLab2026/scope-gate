@@ -1,0 +1,30 @@
+{
+  "should_invoke": [
+    {
+      "prompt": "Scope this CSV import request before implementation.",
+      "reason": "The user explicitly asks for delivery scope."
+    },
+    {
+      "prompt": "Before we design the migration, define what is required, what is excluded, and how acceptance will be checked.",
+      "reason": "The request asks for delivery boundaries and acceptance criteria."
+    },
+    {
+      "prompt": "Create a SCOPE.md baseline for this feature request.",
+      "reason": "The request names the skill's workspace artifact."
+    }
+  ],
+  "should_not_invoke": [
+    {
+      "prompt": "Fix the failing unit test in parser.py.",
+      "reason": "This is an implementation and debugging request, not scope clarification."
+    },
+    {
+      "prompt": "Write an ADR comparing PostgreSQL and SQLite.",
+      "reason": "Decision documentation is explicitly outside the skill boundary."
+    },
+    {
+      "prompt": "Estimate these five backlog tickets in person-days.",
+      "reason": "Estimation and ticket work are explicitly outside the skill boundary."
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Scope Gate"
+  short_description: "Five-field delivery scope before implementation"
+  default_prompt: "Use $scope-gate to scope this request before implementation."
